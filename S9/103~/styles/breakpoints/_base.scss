@@ -49,6 +49,10 @@ img {
   @extend .font-sm;
   color: $cSubTitle;
 }
+.flex {
+  display: flex;
+  flex-direction: column;
+}
 .houses {
   @extend .content-width;
 
@@ -59,5 +63,10 @@ img {
 
   &__btn {
     text-align: center;
+    flex-basis: 100%;
+  }
+
+  &__inner {
+    @extend .flex;
   }
 }
