@@ -1,17 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const hero = new HeroSlider('.swiper-container');
-    hero.start();
+    const main = new Main();
+});
 
-    const cb = function (el, isIntersecting) {
+class Main {
+    constructor() {
+    this.header = document.querySelector('.header');
+    this._observers = [];
+    this._scrollInit();
+    this._init();
+    }
+
+    _init() {
+        new MobileMenu();
+        this.hero = new HeroSlider('.swiper-container');
+        this._scrollInit();
+    }
+
+    _textAnimation = function (el, isIntersecting) {
         if(isIntersecting) {
             const ta = new TweenTextAnimation(el);
             ta.animate();
         }
     }
 
-    const so = new ScrollObserver('.tween-animate-title', cb);
-
-    const _inviewAnimation = function(el, inview) {
+    _inviewAnimation = function(el, inview) {
         if(inview) {
             el.classList.add('inview');
         }else {
@@ -19,18 +31,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const so2 = new ScrollObserver('.cover-slide', _inviewAnimation);
-
-    const header = document.querySelector('.header');
-    const _navAnimation = function(el, inview) {
+    _navAnimation(el, inview) {
         if(inview) {
-            header.classList.remove('triggered');
+            this.header.classList.remove('triggered');
         }else {
-            header.classList.add('triggered');
+            this.header.classList.add('triggered');
+        }
+    }
+    _toggleSlideAnimation(el, inview) {
+        if(inview) {
+            this.hero().start();
+        }else {
+            this.hero().stop();
         }
     }
 
-    const so3 = new ScrollObserver('.nav-trigger', _navAnimation, {once: false});
-    new MobileMenu();
-});
+    _scrollInit() {
+        this._observers.push(
+            new ScrollObserver('.nav-trigger', this._navAnimation.bind(this), {once: false})
+        );
+        this._observers.push(
+            new ScrollObserver('.cover-slide', this._inviewAnimation)
+        );
+        new ScrollObserver('.tween-animate-title', this._textAnimation);
+        new ScrollObserver('.swiper-container', this._toggleSlideAnimation.bind(this), {once: false});
+    }
+}
 
