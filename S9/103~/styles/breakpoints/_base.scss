@@ -57,6 +57,65 @@ img {
   color: $cWineRed;
 }
 
+#content {
+  padding-top: $navHeight;
+}
+
+.header {
+  background-color: transparent;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $navHeight;
+  z-index: 100;
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @extend .content-width;
+  }
+
+  &__nav {
+    display: none;
+  }
+  
+    &__nav {
+      @extend .flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+  
+    &__ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      @extend .flex;
+      padding: 0;
+      margin: 0;
+    }
+  
+    &__li {
+      margin-left: 20px;
+  
+      & > a {
+        color: $cBlack;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+    }
+  
+    & .logo {
+      font-size: 38px;
+      justify-content: center;
+    }
+  }
+
 .travel {
   @extend .content-width;
 
